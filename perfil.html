@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil de mascota</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 400px; margin: 40px auto; padding: 20px; background: #fff8f0; text-align: center; }
+    .card { background: white; border-radius: 16px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+    h1 { color: #ff6b35; font-size: 2em; }
+    p { font-size: 1.1em; color: #444; margin: 10px 0; }
+    .label { font-weight: bold; color: #888; font-size: 0.9em; }
+    a.llamar { display: block; background: #4CAF50; color: white; padding: 14px; border-radius: 10px; text-decoration: none; font-size: 1.2em; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div style="font-size: 4em;">🐾</div>
+    <h1 id="nombre">—</h1>
+    <p><span class="label">Especie/Raza:</span> <span id="raza">—</span></p>
+    <p><span class="label">Dueño/a:</span> <span id="dueno">—</span></p>
+    <p><span class="label">Teléfono:</span> <span id="telefono">—</span></p>
+    <p><span class="label">Dirección:</span> <span id="direccion">—</span></p>
+    <p><span class="label">Notas:</span> <span id="notas">—</span></p>
+    <a class="llamar" id="link-llamar" href="#">📞 Llamar al dueño/a</a>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    document.getElementById('nombre').textContent = params.get('nombre') || '—';
+    document.getElementById('raza').textContent = params.get('raza') || '—';
+    document.getElementById('dueno').textContent = params.get('dueno') || '—';
+    document.getElementById('telefono').textContent = params.get('telefono') || '—';
+    document.getElementById('direccion').textContent = params.get('direccion') || '—';
+    document.getElementById('notas').textContent = params.get('notas') || '—';
+    document.getElementById('link-llamar').href = 'tel:' + (params.get('telefono') || '');
+  </script>
+</body>
+</html>
+```
+
+---
+
+## PASO 4 — Publicar con GitHub Pages (gratis)
+
+1. En tu repositorio, ve a **Settings** (arriba a la derecha)
+2. En el menú lateral busca **"Pages"**
+3. En **"Source"** selecciona **"Deploy from a branch"**
+4. En **"Branch"** selecciona **"main"** y carpeta **"/ (root)"**
+5. Haz clic en **Save**
+
+⏳ Espera 1-2 minutos y tu página estará en:
+```
+https://TU-USUARIO.github.io/qr-mascotas/
