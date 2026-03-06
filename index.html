@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR para Mascotas</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; background: #f0f8ff; }
+    h1 { color: #333; text-align: center; }
+    input, textarea { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
+    button { background: #4CAF50; color: white; padding: 12px 24px; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; width: 100%; }
+    button:hover { background: #45a049; }
+    #qrcode { margin: 20px auto; text-align: center; }
+    #download-btn { display: none; background: #2196F3; margin-top: 10px; }
+  </style>
+</head>
+<body>
+
+  <h1>🐾 Crea el QR de tu mascota</h1>
+
+  <label>Nombre de la mascota:</label>
+  <input type="text" id="nombre" placeholder="Ej: Firulais">
+
+  <label>Especie / Raza:</label>
+  <input type="text" id="raza" placeholder="Ej: Perro - Bull Terrier">
+
+  <label>Nombre del dueño:</label>
+  <input type="text" id="dueno" placeholder="Tu nombre">
+
+  <label>Teléfono de contacto:</label>
+  <input type="tel" id="telefono" placeholder="+56 9 1234 5678">
+
+  <label>Dirección (opcional):</label>
+  <input type="text" id="direccion" placeholder="Tu barrio o comuna">
+
+  <label>Notas médicas (opcional):</label>
+  <textarea id="notas" rows="3" placeholder="Ej: Alérgico a X, toma medicamento Y..."></textarea>
+
+  <button onclick="generarQR()">Generar QR 🐶</button>
+
+  <div id="qrcode"></div>
+  <button id="download-btn" onclick="descargarQR()">⬇️ Descargar QR</button>
+
+  <script>
+    let qrInstance = null;
+
+    function generarQR() {
+      const nombre = document.getElementById('nombre').value;
+      const raza = document.getElementById('raza').value;
+      const dueno = document.getElementById('dueno').value;
+      const telefono = document.getElementById('telefono').value;
+      const direccion = document.getElementById('direccion').value;
+      const notas = document.getElementById('notas').value;
+
+      if (!nombre || !telefono) {
+        alert('Por favor ingresa al menos el nombre y el teléfono.');
+        return;
+      }
+
+      // Construimos la URL del perfil con los datos
+      const base = window.location.origin + window.location.pathname.replace('index.html','');
+      const params = new URLSearchParams({ nombre, raza, dueno, telefono, direccion, notas });
+      const url = `${base}perfil.html?${params.toString()}`;
+
+      // Limpiamos QR anterior
+      document.getElementById('qrcode').innerHTML = '';
+      qrInstance = new QRCode(document.getElementById('qrcode'), {
+        text: url,
+        width: 200,
+        height: 200
+      });
+
+      document.getElementById('download-btn').style.display = 'block';
+    }
+
+    function descargarQR() {
+      const canvas = document.querySelector('#qrcode canvas');
+      if (canvas) {
+        const link = document.createElement('a');
+        link.download = 'qr-mascota.png';
+        link.href = canvas.toDataURL();
+        link.click();
+      }
+    }
+  </script>
+
+</body>
+</html>
